@@ -105,10 +105,40 @@
   /* top chrome */
   #brand{position:absolute;top:18px;left:22px;font-size:9px;letter-spacing:0.26em;color:rgba(52,56,66,0.8)}
   #brand b{color:rgba(30,90,70,0.95);font-weight:600;letter-spacing:0.3em}
-  #organwrap{position:absolute;top:44px;left:22px;display:flex;align-items:center;gap:8px}
-  #organ-select{font:inherit;font-size:10px;letter-spacing:0.12em;color:#1c2029;background:rgba(255,255,255,0.72);
-    border:1px solid rgba(62,66,76,0.4);padding:8px 10px;cursor:pointer;min-width:186px;text-transform:uppercase}
-  #organ-tag{font-size:8px;letter-spacing:0.16em;color:rgba(52,56,66,0.6);text-transform:uppercase}
+  #organwrap{position:absolute;top:44px;left:22px;width:232px}
+  #organ-btn{display:flex;align-items:center;gap:8px;width:100%;font:inherit;cursor:pointer;text-align:left;
+    background:rgba(255,255,255,0.74);border:1px solid rgba(62,66,76,0.4);padding:7px 11px}
+  #organ-btn:hover{background:rgba(255,255,255,0.92)}
+  .ob-txt{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+  #organ-btn-name{font-size:11px;letter-spacing:0.1em;color:#1c2029;text-transform:uppercase;font-weight:500}
+  #organ-btn-sys{font-size:7.5px;letter-spacing:0.14em;color:rgba(52,56,66,0.62);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ob-caret{font-size:9px;color:rgba(52,56,66,0.6);transition:transform .2s}
+  #organ-btn[aria-expanded="true"] .ob-caret{transform:rotate(180deg)}
+  #organ-menu{position:absolute;top:calc(100% + 5px);left:0;width:250px;max-height:70vh;overflow-y:auto;
+    background:rgba(248,249,247,0.98);border:1px solid rgba(62,66,76,0.3);box-shadow:0 16px 42px rgba(40,36,30,0.22);
+    padding:5px;display:none;z-index:30}
+  #organ-menu.open{display:block}
+  .organ-opt{display:flex;align-items:center;gap:8px;padding:7px 9px;cursor:pointer;border-radius:2px}
+  .organ-opt:hover{background:rgba(62,66,76,0.09)}
+  .organ-opt.cur{background:rgba(63,138,112,0.15)}
+  .oo-name{font-size:11px;letter-spacing:0.06em;color:#20242a;flex:1;text-transform:uppercase}
+  .organ-opt.real .oo-name{color:#0f6a4c;font-weight:500}
+  .oo-badge{font-size:7px;letter-spacing:0.13em;padding:2px 6px;border-radius:2px;text-transform:uppercase;white-space:nowrap;flex:none}
+  .organ-opt.real .oo-badge{color:#12332a;background:#a8e6c9;font-weight:600}
+  .oo-badge.dim{color:rgba(52,56,66,0.4);background:rgba(62,66,76,0.07)}
+  #organ-menu-hd{font-size:7px;letter-spacing:0.2em;color:rgba(52,56,66,0.5);text-transform:uppercase;padding:6px 9px 3px}
+  body.theme-dark #organ-btn{background:rgba(30,33,38,0.78);border-color:rgba(255,255,255,0.2)}
+  body.theme-dark #organ-btn:hover{background:rgba(40,44,50,0.88)}
+  body.theme-dark #organ-btn-name{color:#e6ebe6}
+  body.theme-dark #organ-btn-sys{color:rgba(200,206,214,0.6)}
+  body.theme-dark .ob-caret{color:rgba(200,206,214,0.6)}
+  body.theme-dark #organ-menu{background:rgba(24,27,31,0.98);border-color:rgba(255,255,255,0.16)}
+  body.theme-dark .organ-opt:hover{background:rgba(255,255,255,0.07)}
+  body.theme-dark .organ-opt.cur{background:rgba(63,138,112,0.3)}
+  body.theme-dark .oo-name{color:#d9ded6}
+  body.theme-dark .organ-opt.real .oo-name{color:#a8e6c9}
+  body.theme-dark .oo-badge.dim{color:rgba(200,206,214,0.4);background:rgba(255,255,255,0.06)}
+  body.theme-dark #organ-menu-hd{color:rgba(200,206,214,0.45)}
   #modewrap{position:absolute;top:82px;left:22px;display:flex;border:1px solid rgba(62,66,76,0.3)}
   #modewrap button{font:inherit;font-size:9px;letter-spacing:0.18em;color:rgba(52,56,66,0.8);background:rgba(255,255,255,0.4);
     border:0;padding:7px 13px;cursor:pointer}
@@ -181,8 +211,7 @@
   body.theme-dark #vignette{box-shadow:inset 0 0 26vmin rgba(0,0,0,0.6)}
   body.theme-dark #brand{color:rgba(200,206,214,0.72)}
   body.theme-dark #brand b{color:#a8e6c9}
-  body.theme-dark #organ-select{background:rgba(30,33,38,0.72);color:#e6ebe6;border-color:rgba(255,255,255,0.2)}
-  body.theme-dark #organ-tag,body.theme-dark #instructions,body.theme-dark #credit{color:rgba(200,206,214,0.55)}
+  body.theme-dark #instructions,body.theme-dark #credit{color:rgba(200,206,214,0.55)}
   body.theme-dark #instructions b{color:#a8e6c9}
   body.theme-dark #modewrap{border-color:rgba(255,255,255,0.18)}
   body.theme-dark #modewrap button{background:rgba(22,25,30,0.6);color:rgba(230,235,230,0.78)}
@@ -260,8 +289,11 @@
 
   <div id="brand">◦ <b>CORPUS</b> · INTERACTIVE ANATOMY ATLAS · educational</div>
   <div id="organwrap">
-    <select id="organ-select"></select>
-    <span id="organ-tag">SYSTEM</span>
+    <button id="organ-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+      <span class="ob-txt"><span id="organ-btn-name">Heart</span><span id="organ-btn-sys">Cardiovascular</span></span>
+      <span class="ob-caret">▾</span>
+    </button>
+    <div id="organ-menu" role="listbox"></div>
   </div>
   <div id="modewrap"><button id="mode-explore" class="active">◉ EXPLORE</button><button id="mode-guided">▷ GUIDED TOUR</button></div>
   <div id="themewrap"><button id="theme-light" class="active">☀ ATLAS</button><button id="theme-dark">☾ LIVING</button></div>
@@ -621,7 +653,9 @@ function loadOrgan(id){
   anchorMode = !!cfg.anchors && (theme==='dark' || cfg.specimen);   // specimen → curated clickable regions + dots
   disposeCurrent();
   loadEl.style.opacity='1'; loadEl.firstChild.textContent = `LOADING ${cfg.name.toUpperCase()}…`; loadBar.style.width='0%';
-  document.getElementById('organ-tag').textContent = cfg.system;
+  setOrganUI(id);
+  // Labels ⇄ Natural only matters where structures are colour-coded from a palette (not on realistic/plain organs)
+  document.getElementById('labelwrap').style.display = (PALETTES[cfg.id] && !anchorMode) ? '' : 'none';
   updateModeUIForOrgan(cfg);
   loader.load(file, (gltf)=>{
     const model = gltf.scene;
@@ -800,7 +834,7 @@ function selectStruct(s, {guided=false}={}){
       || (o.id==='kidney'&&/kidney|renal/.test(s.clean))
       || (o.id==='heart'&&/heart|ventricle|atrium|aorta|cardiac/.test(s.clean)) ));
     if(match){ openBtn.style.display=''; openBtn.textContent=`▶ OPEN ${match.name.toUpperCase()} MODULE`;
-      openBtn.onclick=(e)=>{ e.stopPropagation(); selectEl.value=match.id; loadOrgan(match.id); }; }
+      openBtn.onclick=(e)=>{ e.stopPropagation(); selectOrgan(match.id); }; }
   }
   specCount.textContent = guided ? `TOUR · ${currentCfg.name.toUpperCase()}` : 'SELECTED';
   spTxt.textContent = currentCfg.name.slice(0,10).toUpperCase();
@@ -912,11 +946,27 @@ function gComplete(){
 }
 
 /* ============ mode + organ UI ============ */
-const selectEl=document.getElementById('organ-select');
-ORGANS.forEach(o=>{ const opt=document.createElement('option'); opt.value=o.id;
-  opt.textContent = (o.id==='body'?'◈ ':'') + o.name; selectEl.appendChild(opt); });
-selectEl.value='heart';
-selectEl.addEventListener('change', ()=>{ el('complete').style.opacity='0'; loadOrgan(selectEl.value); });
+/* ---- custom organ dropdown (flags which organs have a realistic 3D model) ---- */
+const organBtn=el('organ-btn'), organMenu=el('organ-menu'), organBtnName=el('organ-btn-name'), organBtnSys=el('organ-btn-sys');
+function hasReal(cfg){ return !!(cfg.models && cfg.models.dark) || !!cfg.specimen; }
+{ const hd=document.createElement('div'); hd.id='organ-menu-hd'; hd.textContent='◆ = realistic 3D model · rest are diagrams'; organMenu.appendChild(hd); }
+ORGANS.forEach(o=>{
+  const row=document.createElement('div'); row.className='organ-opt'+(hasReal(o)?' real':''); row.dataset.id=o.id;
+  row.innerHTML=`<span class="oo-name">${(o.id==='body'?'◈ ':'')+o.name}</span>`
+    + (hasReal(o)?'<span class="oo-badge">◆ Realistic</span>':'<span class="oo-badge dim">diagram</span>');
+  row.addEventListener('click', ()=>selectOrgan(o.id));
+  organMenu.appendChild(row);
+});
+function setOrganUI(id){ const cfg=ORGAN_BY_ID[id]; if(!cfg) return;
+  organBtnName.textContent=(id==='body'?'◈ ':'')+cfg.name; organBtnSys.textContent=cfg.system;
+  [...organMenu.querySelectorAll('.organ-opt')].forEach(r=>r.classList.toggle('cur', r.dataset.id===id)); }
+function openOrganMenu(){ organMenu.classList.add('open'); organBtn.setAttribute('aria-expanded','true'); }
+function closeOrganMenu(){ organMenu.classList.remove('open'); organBtn.setAttribute('aria-expanded','false'); }
+function selectOrgan(id){ closeOrganMenu(); el('complete').style.opacity='0'; loadOrgan(id); }
+organBtn.addEventListener('click', e=>{ e.stopPropagation(); organMenu.classList.contains('open')?closeOrganMenu():openOrganMenu(); });
+organMenu.addEventListener('click', e=>e.stopPropagation());
+document.addEventListener('click', closeOrganMenu);
+addEventListener('keydown', e=>{ if(e.key==='Escape') closeOrganMenu(); });
 
 const btnExplore=el('mode-explore'), btnGuided=el('mode-guided');
 function updateModeUIForOrgan(cfg){ ecgWrap.style.display = cfg.ecg?'':'none'; }
